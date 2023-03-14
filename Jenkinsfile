@@ -8,8 +8,14 @@ node('MAVEN_JD8'){
 
       }
        stage('postbuild'){
-        archiveArtifacts artifacts: '**/Target/gameoflife.war', followSymlinks: false,
-        junit '**/surefire/TEST-*.xml'
-       }
+         archiveArtifacts  onlyIfSuccessful: true,
+            artifacts:'**/Target/gameoflife.war',
+            allowEmptyArchive: true,
+       } 
+        stage('test results'){
+          junit testResults :'**/superfire-reports/TEST-*.xml',
+            allowEmptyResults :true
+        }
+       
         
 }      
